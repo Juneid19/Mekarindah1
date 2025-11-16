@@ -1,265 +1,242 @@
 <!DOCTYPE html>
-<html lang="en">
-
-  <head>
-    <meta charset="UTF-8">
-    <title>iframe tester</title>
-    <link rel="stylesheet" href="https://public.codepenassets.com/css/reset-2.0.min.css">
-
-
-  </head>
-    
-  <body>
-  <!DOCTYPE html>
-<html lang="en">
-
-  <head>
-    <meta charset="UTF-8">
-    <title>iframe tester</title>
-    <link rel="stylesheet" href="https://public.codepenassets.com/css/reset-2.0.min.css">
-
-
-  </head>
-    
-  <body>
-  <!doctype html>
-
+<html lang="id">
 <head>
-
-  <meta charset="utf-8">
-
-  <meta http-equiv="x-ua-compatible" content="ie=edge">
-
-  <meta name = "yandex-verification" content = "a9ef805765eb146f" />
-
-  <title>Muarasipongi</title>
-
-  <meta name="description" content="">
-
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-  <meta name="msapplication-TileColor" content="#000000">
-
-  <meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
-
-  <meta name="theme-color" content="#000000">
-
-  <link rel="manifest" href="site.webmanifest">
-
-  <link rel="apple-touch-icon" sizes="57x57" href="apple-icon-57x57.png">
-
-  <link rel="apple-touch-icon" sizes="60x60" href="apple-icon-60x60.png">
-
-  <link rel="apple-touch-icon" sizes="72x72" href="apple-icon-72x72.png">
-
-  <link rel="apple-touch-icon" sizes="76x76" href="apple-icon-76x76.png">
-
-  <link rel="apple-touch-icon" sizes="114x114" href="apple-icon-114x114.png">
-
-  <link rel="apple-touch-icon" sizes="120x120" href="apple-icon-120x120.png">
-
-  <link rel="apple-touch-icon" sizes="144x144" href="apple-icon-144x144.png">
-
-  <link rel="apple-touch-icon" sizes="152x152" href="apple-icon-152x152.png">
-
-  <link rel="apple-touch-icon" sizes="180x180" href="apple-icon-180x180.png">
-
-  <link rel="icon" type="image/png" sizes="192x192"  href="android-icon-192x192.png">
-
-  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
-
-  <link rel="icon" type="image/png" sizes="96x96" href="favicon-96x96.png">
-
-  <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
-
-  <link rel="manifest" href="manifest.json">
-
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Orbitron">
-
-  <!-- Global site tag (gtag.js) - Google Analytics -->
-
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-KNSZJT7310"></script>
-
-  <script>
-
-    window.dataLayer = window.dataLayer || [];
-
-    function gtag(){dataLayer.push(arguments);}
-
-    gtag('js', new Date());
-
-    gtag('config', 'G-KNSZJT7310');
-
-  </script>
-
-</head>
-
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Mekarindah Player</title>
 <style>
+  * {margin:0; padding:0; box-sizing:border-box;}
+  body {
+    font-family:'Segoe UI', sans-serif;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:100vh;
+    background:linear-gradient(135deg,#667eea,#764ba2);
+    transition:background 1s ease;
+    overflow:hidden;
+  }
+  .player {
+    text-align:center;
+    padding:40px;
+    border-radius:25px;
+    background:rgba(255,255,255,0.1);
+    backdrop-filter:blur(20px);
+    box-shadow:0 0 40px rgba(0,0,0,0.4);
+    width:90%;
+    max-width:400px;
+  }
+  .cover-wrap {
+    position:relative;
+    width:220px;
+    height:220px;
+    margin:auto 0 25px;
+  }
+  .ring {
+    position:absolute;
+    top:50%; left:50%;
+    width:250px; height:250px;
+    transform:translate(-50%,-50%);
+    border-radius:50%;
+    background:conic-gradient(#ff006e,#8338ec,#3a86ff,#06c,#ff006e);
+    animation:spin 3s linear infinite,pulse 2s ease-in-out infinite;
+    filter:blur(2px); opacity:.8;
+  }
+  @keyframes spin {
+    from {transform:translate(-50%,-50%) rotate(0deg);}
+    to {transform:translate(-50%,-50%) rotate(360deg);}
+  }
+  @keyframes pulse {
+    0%,100% {opacity:.8; transform:translate(-50%,-50%) scale(1);}
+    50% {opacity:1; transform:translate(-50%,-50%) scale(1.05);}
+  }
+  .cover {
+    position:absolute;
+    top:50%; left:50%;
+    width:220px; height:220px;
+    transform:translate(-50%,-50%);
+    border-radius:50%;
+    object-fit:cover;
+    box-shadow:0 0 25px rgba(0,0,0,0.5);
+    animation:rotate 10s linear infinite;
+  }
+  @keyframes rotate {
+    from {transform:translate(-50%,-50%) rotate(0deg);}
+    to {transform:translate(-50%,-50%) rotate(360deg);}
+  }
+  .paused {animation-play-state:paused;}
+  h2 {color:#fff; margin-bottom:5px;}
+  h4 {color:#ddd; margin-bottom:10px;}
 
-  body, html{
-
-    height: 100%;
-
-    margin: 0;
-
-    background-color: black;
-
-    overflow: hidden; /* Hide scrollbars */
-
+  /* 🖤 LIVE text hitam + bayangan putih lembut */
+  .radio-name {
+    color:#000;
+    font-weight:bold;
+    margin-bottom:20px;
+    text-shadow:1px 1px 4px rgba(255,255,255,0.7);
+    letter-spacing:0.5px;
   }
 
-  section {
-
-    width: 100%;
-
-    height: 80%;
-
+  /* Tombol sejajar */
+  .controls {
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    gap:20px;
+    margin:15px 0;
+  }
+  button {
+    background:rgba(255,255,255,0.2);
+    color:white;
+    border:none;
+    border-radius:50%;
+    width:60px; height:60px;
+    cursor:pointer;
+    font-size:22px;
+    transition:.3s;
+    box-shadow:0 0 10px rgba(255,255,255,0.2);
+  }
+  button:hover {
+    background:rgba(255,255,255,0.3);
+    transform:scale(1.1);
+    box-shadow:0 0 20px rgba(255,255,255,0.5);
   }
 
-  div#tanah {
-
-    text-align: center;
-
+  .listeners {
+    color:#fff;
+    margin-top:10px;
+    font-size:14px;
+    opacity:.8;
   }
-
-  div#ulu {
-
-    text-align: center;
-
-  }
-
-  div#lunaradio {
-
-    width: 100%;
-
-    height: 100%;
-
-  }
-
-  a {
-
-    text-decoration: none;
-
-    font-size: 25px;
-
-    font-family: Orbitron,sans-serif;
-
-    font-color: #63500b;
-
-    color: #63500b;
-
-    display: inline-block;
-
-    border: 0 solid #63500b;
-
-    padding: 10px 0;
-
-  }
-
 </style>
-
+</head>
 <body>
+<div class="player">
+  <div class="cover-wrap">
+    <div class="ring"></div>
+    <img id="cover" class="cover" src="https://players.rcast.net/uploads/images/202109/img_x300_61491e3b9e7be8-99461331-96455050.png" />
+  </div>
+  <h2 id="title">Mekarindah</h2>
+  <h4 id="artist">Streaming Live</h4>
+  <div class="radio-name">LIVE • Mekarindah</div>
 
-    <section id="wrapper">
+  <div class="controls">
+    <button id="refresh" title="Refresh">🔄</button>
+    <button id="play" title="Play / Pause">▶</button>
+    <button id="stop" title="Stop">⏹</button>
+  </div>
 
-      <div id="tanah">
+  <div class="listeners" id="listeners">Menunggu data...</div>
+</div>
 
-        <a href="https://players.rcast.net/luna/200017" target="_blank">Chat Rooms</a>
+<audio id="audio" crossorigin="anonymous"></audio>
 
-      </div>
+<script>
+const idzeno = "gkvbmtw4kkeuv";
+const stream = "https://stream.zeno.fm/" + idzeno;
+const fallbackCover = "https://players.rcast.net/uploads/images/202109/img_x300_61491e3b9e7be8-99461331-96455050.png";
+const audio = document.getElementById("audio");
+const playBtn = document.getElementById("play");
+const stopBtn = document.getElementById("stop");
+const refreshBtn = document.getElementById("refresh");
+const cover = document.getElementById("cover");
+const titleEl = document.getElementById("title");
+const artistEl = document.getElementById("artist");
+const listeners = document.getElementById("listeners");
+let isPlaying = false;
+let lastTrack = "";
 
-      <div id="ulu">
+audio.src = stream;
+audio.volume = 0.7;
 
-        <a href="https://mekarindah.netlify.app/" target="_blank">VR Club </a>
+playBtn.onclick = () => {
+  if (isPlaying) {
+    audio.pause();
+    cover.classList.add("paused");
+    playBtn.textContent = "▶";
+  } else {
+    audio.play();
+    cover.classList.remove("paused");
+    playBtn.textContent = "⏸";
+  }
+  isPlaying = !isPlaying;
+};
 
-      </div>
+stopBtn.onclick = () => {
+  audio.pause();
+  audio.currentTime = 0;
+  isPlaying = false;
+  cover.classList.add("paused");
+  playBtn.textContent = "▶";
+};
 
-      <div id="lunaradio" >
+refreshBtn.onclick = () => fetchNowPlaying(true);
 
-          Loading Player...
+async function fetchNowPlaying(force = false) {
+  try {
+    const r = await fetch(`https://zenoplay.zenomedia.com/api/zenofm/nowplaying/${idzeno}/?_=${Date.now()}`, { cache: "no-store" });
+    const data = await r.json();
+    const currentTrack = (data.artist + " - " + data.title).trim();
+    if (!force && currentTrack === lastTrack) return;
+    lastTrack = currentTrack;
+    updateInfo(data);
+  } catch (e) {
+    console.error(e);
+    listeners.textContent = "Gagal memuat data";
+  }
+}
 
-      </div>
+async function updateInfo(data) {
+  let title = data.title?.trim() || "Mekarindah";
+  let artist = data.artist?.trim() || "Streaming Live";
 
-</section>
+  if (title.includes(" - ") && (!data.artist || data.artist === "")) {
+    const parts = title.split(" - ");
+    artist = parts[0].trim();
+    title = parts[1].trim();
+  }
 
-  <script src="https://radiovalenzaweb1.github.io/RadioValenzaWeb1/jquery-3.2.1.min.js"></script>
+  titleEl.textContent = title;
+  artistEl.textContent = artist;
+  listeners.textContent = "🎵 Live dari Mekarindah";
 
-  <script src="https://adminradios.aljania.com/js/lunaradio-animado.js"></script>
+  let img = data.thumb;
+  if (!img || img === "") {
+    try {
+      const res = await fetch(`https://itunes.apple.com/search?term=${encodeURIComponent(artist + " " + title)}&limit=1`, { cache: "no-store" });
+      const j = await res.json();
+      if (j.results?.length > 0) {
+        img = j.results[0].artworkUrl100.replace("100x100", "600x600");
+      }
+    } catch (e) {
+      console.warn("iTunes cover fetch failed:", e);
+    }
+  }
+  cover.src = img || fallbackCover;
+  changeBackgroundColor(title + artist);
+}
 
-  <script>
+const colors = [
+  'linear-gradient(135deg,#667eea,#764ba2)',
+  'linear-gradient(135deg,#f093fb,#f5576c)',
+  'linear-gradient(135deg,#4facfe,#00f2fe)',
+  'linear-gradient(135deg,#fa709a,#fee140)',
+  'linear-gradient(135deg,#30cfd0,#330867)'
+];
+let colorIndex = 0;
+function cycleBackground() {
+  colorIndex = (colorIndex + 1) % colors.length;
+  document.body.style.background = colors[colorIndex];
+}
+setInterval(cycleBackground, 15000);
 
-$("#lunaradio").lunaradio({
+function changeBackgroundColor(seed) {
+  const idx = Math.abs(seed.split('').reduce((a, c) => a + c.charCodeAt(0), 0)) % colors.length;
+  document.body.style.background = colors[idx];
+}
 
-	token: "",
-
-	userinterface: "big",
-
-	backgroundcolor: "#100009",
-
-	fontcolor: "#e5c00d",
-
-	hightlightcolor: "#e5c00d",
-
-	volume: "90",
-
-	fontratio: "0.6",
-
-	radioname: "MEKARINDAH",
-
- autoplay: "false",
-
-	scroll: "true",
-
-	coverimage: "https://players.rcast.net/uploads/images/202109/img_x300_61491e3b9e7be8-99461331-96455050.png",
-
-	onlycoverimage: "false",
-
-	coverstyle: "square",
-
-	usevisualizer: "real",
-
-	visualizertype: "7",
-
-	metadatatechnic: "",
-
-	ownmetadataurl: "",
-
-	fontname: "Orbitron",
-
-	googlefont: "Orbitron",
-
-	streamurl: "https://stream.zeno.fm/gkvbmtw4kkeuv",
-
-	streamtype: "zeno",
-
- idzeno: "gkvbmtw4kkeuv",
-
-	icecastmountpoint: "/ravepartyradio-192.mp3",
-
-	streamsuffix: "",
-
-	debug: "false",
-
-	usestreamcorsproxy: "false",
-
-	corsproxy: "",
-
-	metadatainterval: "5000",
-
- displayliveicon: "true",
-
- displayvisualizericon: "true"
-
-});
-
+fetchNowPlaying();
+setInterval(fetchNowPlaying, 10000);
 </script>
-
 </body>
-    
-  </body>
-  
-</html>
-    
-  </body>
-  
 </html>
