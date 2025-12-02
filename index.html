@@ -27,21 +27,39 @@
     max-width:400px;
   }
   .cover-wrap {
-    position:relative;
-    width:220px;
-    height:220px;
-    margin:auto 0 25px;
-  }
-  .ring {
-    position:absolute;
-    top:50%; left:50%;
-    width:250px; height:250px;
-    transform:translate(-50%,-50%);
-    border-radius:50%;
-    background:conic-gradient(#ff006e,#8338ec,#3a86ff,#06c,#ff006e);
-    animation:spin 3s linear infinite,pulse 2s ease-in-out infinite;
-    filter:blur(2px); opacity:.8;
-  }
+    position: relative;
+    width: 250px; /* Ubah dari 220px ke 250px */
+    height: 250px; /* Ubah dari 220px ke 250px */
+    margin: 0 auto 25px; /* Center secara horizontal */
+}
+
+.ring {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 250px;
+    height: 250px;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    background: conic-gradient(#ff006e, #8338ec, #3a86ff, #06c, #ff006e);
+    animation: spin 3s linear infinite, pulse 2s ease-in-out infinite;
+    filter: blur(2px);
+    opacity: .8;
+    /* Tidak perlu z-index, biarkan di belakang secara natural */
+}
+
+.cover {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 220px; /* Tetap 220px, lebih kecil dari parent */
+    height: 220px;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    object-fit: cover;
+    box-shadow: 0 0 25px rgba(0,0,0,0.5);
+    animation: rotate 10s linear infinite;
+}
   @keyframes spin {
     from {transform:translate(-50%,-50%) rotate(0deg);}
     to {transform:translate(-50%,-50%) rotate(360deg);}
