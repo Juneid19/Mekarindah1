@@ -1,414 +1,811 @@
 <!DOCTYPE html>
-<html lang="en">
-
-  <head>
-    <meta charset="UTF-8">
-    <title>iframe tester</title>
-    <link rel="stylesheet" href="https://public.codepenassets.com/css/reset-2.0.min.css">
-
-
-  </head>
-    
-  <body>
-  <!DOCTYPE html>
-<html lang="en">
-
-  <head>
-    <meta charset="UTF-8">
-    <title>iframe tester</title>
-    <link rel="stylesheet" href="https://public.codepenassets.com/css/reset-2.0.min.css">
-
-
-  </head>
-    
-  <body>
-  <!DOCTYPE html>
 <html lang="id">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Mekarindah — Vinyl Player (iTunes Sync)</title>
-<style>
-  *{box-sizing:border-box;margin:0;padding:0}
-  html,body{height:100%}
-  body{
-    font-family: "Segoe UI", Roboto, system-ui, -apple-system, "Helvetica Neue", Arial;
-    display:flex;align-items:center;justify-content:center;
-    background:linear-gradient(135deg,#667eea,#764ba2);
-    transition:background 1s ease;
-    min-height:100vh;
-  }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>SUARA MEKARINDAH - Vinyl Player</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* --- [ STYLE CSS TETAP SAMA ] --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-  .card{
-    width: 94%;
-    max-width: 420px;
-    background: rgba(255,255,255,0.08);
-    backdrop-filter: blur(12px);
-    border-radius: 20px;
-    padding: 28px;
-    text-align:center;
-    box-shadow: 0 20px 50px rgba(0,0,0,0.45);
-  }
+        html, body {
+            height: 100%;
+            overflow: hidden;
+        }
 
-  .title-app{
-    color:#eaf2ff;
-    font-weight:700;
-    letter-spacing:1px;
-    margin-bottom:14px;
-    text-shadow:0 0 10px rgba(0,200,255,0.15);
-  }
+        body {
+            font-family: 'Poppins', sans-serif;
+            min-height: 100vh;
+            min-height: -webkit-fill-available;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+            transition: background 3s ease;
+        }
 
-  .cover-wrap{ position:relative; width:200px; height:200px; margin: 0 auto 18px; }
-  .neon-ring{
-    position:absolute; inset:0; margin:auto;
-    width:230px; height:230px; border-radius:50%;
-    background: conic-gradient(from 0deg,#ff006e,#8338ec,#3a86ff,#06c,#ff006e);
-    filter: blur(2px); opacity:.82;
-    transform: translateZ(0);
-    animation: ring-rot 3s linear infinite, ring-pulse 2.2s ease-in-out infinite;
-  }
-  @keyframes ring-rot{ from{transform:translateZ(0) rotate(0deg)} to{transform:translateZ(0) rotate(360deg)} }
-  @keyframes ring-pulse{ 0%,100%{transform:scale(1)} 50%{transform:scale(1.04)} }
+        .bg-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(ellipse at 30% 20%, rgba(255,255,255,0.4) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: 0;
+        }
 
-  .cover {
-    position:absolute;
-    top:50%; left:50%;
-    transform: translate(-50%,-50%);
-    width:200px; height:200px;
-    border-radius:50%;
-    object-fit:cover;
-    box-shadow: 0 12px 30px rgba(0,0,0,0.5);
-    animation: spin 10s linear infinite;
-  }
-  @keyframes spin{ from{transform:translate(-50%,-50%) rotate(0deg)} to{transform:translate(-50%,-50%) rotate(360deg)} }
-  .cover.paused{ animation-play-state: paused; opacity:0.95 }
+        .player-container {
+            position: relative;
+            z-index: 10;
+            width: 100%;
+            max-width: 360px;
+            padding: 15px;
+        }
 
-  .info { color:#f0f6ff; margin-bottom:8px }
-  .song-title{ font-size:18px; font-weight:700; margin-bottom:4px; }
-  .song-artist{ font-size:14px; color: #dbeafe; opacity:0.9; margin-bottom:6px; }
-  .radio-name{ font-size:12px; color:#d1d5db; margin-bottom:8px; }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.45);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            border-radius: 30px;
+            border: 2px solid rgba(255, 255, 255, 0.6);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.08);
+            padding: 25px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
 
-  .controls{ display:flex; justify-content:center; gap:18px; margin:12px 0; }
-  .btn{
-    width:62px; height:62px; border-radius:50%; border:none; cursor:pointer;
-    background: rgba(255,255,255,0.14); color:white; font-size:20px;
-    display:flex; align-items:center; justify-content:center;
-    transition: transform .18s ease, box-shadow .18s ease, background .18s ease;
-    box-shadow: 0 6px 18px rgba(0,0,0,0.35);
-  }
-  .btn:hover{ transform: translateY(-4px); background: rgba(255,255,255,0.22); box-shadow: 0 10px 26px rgba(0,0,0,0.45) }
+        /* Vinyl Assembly - Lebih kecil */
+        .vinyl-assembly {
+            position: relative;
+            width: 200px;
+            height: 200px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
 
-  .play { width:86px; height:86px; font-size:26px; background: linear-gradient(135deg,#667eea,#764ba2) }
+        .vinyl-disc {
+            position: absolute;
+            width: 190px;
+            height: 190px;
+            border-radius: 50%;
+            background: 
+                radial-gradient(circle at center, transparent 38px, #1a1a1a 39px),
+                repeating-radial-gradient(
+                    circle at center,
+                    #1a1a1a 0px, #1a1a1a 2px,
+                    #252525 2px, #252525 3px,
+                    #2a2a2a 3px, #2a2a2a 4px,
+                    #252525 4px, #252525 5px
+                );
+            box-shadow: 
+                0 0 0 6px rgba(0, 0, 0, 0.2),
+                0 15px 40px rgba(0, 0, 0, 0.25);
+            animation: vinylSpin 2.5s linear infinite paused;
+            z-index: 1;
+        }
 
-  .listeners{ font-size:13px; color:#e6eefc; opacity:0.9; margin-top:8px }
+        .vinyl-disc::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 75px;
+            height: 75px;
+            border-radius: 50%;
+            background: 
+                radial-gradient(circle at 40% 40%, rgba(255,255,255,0.3), transparent 60%),
+                linear-gradient(135deg, #667eea, #764ba2, #f093fb);
+            box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.15);
+        }
 
-  /* responsive */
-  @media (max-width:420px){
-    .cover-wrap{ width:170px; height:170px }
-    .neon-ring{ width:200px; height:200px }
-    .cover{ width:170px; height:170px }
-  }
-</style>
+        .vinyl-disc::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #222;
+            box-shadow: 0 0 0 2px #555, 0 0 0 4px #333;
+        }
+
+        .vinyl-shine {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, transparent 40%);
+            pointer-events: none;
+        }
+
+        .vinyl-disc.playing {
+            animation-play-state: running;
+        }
+
+        @keyframes vinylSpin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        /* Cover - Lebih kecil */
+        .cover-container {
+            position: relative;
+            width: 115px;
+            height: 115px;
+            z-index: 10;
+        }
+
+        .cover-glow {
+            position: absolute;
+            top: -12px;
+            left: -12px;
+            right: -12px;
+            bottom: -12px;
+            border-radius: 20px;
+            background: linear-gradient(135deg, #667eea, #764ba2, #f093fb, #f5576c);
+            filter: blur(20px);
+            opacity: 0.5;
+            z-index: -1;
+        }
+
+        .album-cover {
+            width: 115px;
+            height: 115px;
+            border-radius: 14px;
+            object-fit: cover;
+            box-shadow: 
+                0 12px 35px rgba(0, 0, 0, 0.2),
+                0 0 0 3px rgba(255, 255, 255, 0.7);
+            transition: all 0.3s ease;
+            position: relative;
+            z-index: 2;
+        }
+
+        .cover-shine {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border-radius: 14px;
+            background: linear-gradient(135deg, rgba(255,255,255,0.35) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: 3;
+        }
+
+        /* Tonearm - Lebih kecil */
+        .tonearm {
+            position: absolute;
+            top: -10px;
+            right: -15px;
+            width: 70px;
+            height: 70px;
+            z-index: 20;
+            transform-origin: 85% 15%;
+            transform: rotate(-25deg);
+            transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .tonearm.playing {
+            transform: rotate(12deg);
+        }
+
+        .tonearm-base {
+            position: absolute;
+            top: 3px;
+            right: 8px;
+            width: 16px;
+            height: 16px;
+            background: linear-gradient(135deg, #ffd700, #ffb347);
+            border-radius: 50%;
+            box-shadow: 0 2px 8px rgba(255, 179, 71, 0.4);
+        }
+
+        .tonearm-arm {
+            position: absolute;
+            top: 10px;
+            right: 14px;
+            width: 55px;
+            height: 5px;
+            background: linear-gradient(to bottom, #ffd700, #b8860b);
+            transform-origin: right center;
+            transform: rotate(50deg);
+            border-radius: 3px;
+        }
+
+        .tonearm-head {
+            position: absolute;
+            left: -4px;
+            top: -3px;
+            width: 14px;
+            height: 10px;
+            background: linear-gradient(to bottom, #d4d4d4, #999);
+            border-radius: 2px 2px 3px 3px;
+        }
+
+        .tonearm-needle {
+            position: absolute;
+            bottom: -3px;
+            left: 5px;
+            width: 2px;
+            height: 4px;
+            background: #fff;
+        }
+
+        /* Station Info */
+        .station-info {
+            text-align: center;
+            margin-top: 20px;
+            width: 100%;
+        }
+
+        .station-name {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.3rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #4a4a4a;
+        }
+
+        /* Now Playing dengan Marquee */
+        .now-playing {
+            margin-top: 12px;
+            padding: 12px 0;
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            border-radius: 50px;
+            border: 2px solid rgba(255, 255, 255, 0.9);
+            width: 100%;
+            overflow: hidden;
+        }
+
+        .now-playing-label {
+            font-size: 0.6rem;
+            color: #764ba2;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        /* Marquee Container */
+        .marquee-container {
+            width: 100%;
+            overflow: hidden;
+            padding: 0 15px;
+        }
+
+        .marquee-text {
+            display: inline-block;
+            white-space: nowrap;
+            animation: none;
+        }
+
+        .marquee-text.scrolling {
+            animation: marquee 10s linear infinite; 
+        }
+
+        @keyframes marquee {
+            0% { transform: translateX(0%); }
+            100% { transform: translateX(-50%); }
+        }
+
+        .song-title {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .artist-name {
+            font-size: 0.75rem;
+            color: #666;
+            margin-top: 2px;
+            font-weight: 500;
+        }
+
+        /* Equalizer - Lebih kecil */
+        .equalizer {
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            gap: 4px;
+            height: 20px;
+            margin-top: 12px;
+        }
+
+        .eq-bar {
+            width: 4px;
+            border-radius: 3px;
+            height: 6px;
+            background: linear-gradient(to top, #667eea, #f093fb);
+        }
+
+        .equalizer.active .eq-bar {
+            animation: eqBounce 0.6s ease-in-out infinite;
+        }
+
+        .eq-bar:nth-child(1) { animation-delay: 0s; }
+        .eq-bar:nth-child(2) { animation-delay: 0.08s; }
+        .eq-bar:nth-child(3) { animation-delay: 0.16s; }
+        .eq-bar:nth-child(4) { animation-delay: 0.24s; }
+        .eq-bar:nth-child(5) { animation-delay: 0.16s; }
+        .eq-bar:nth-child(6) { animation-delay: 0.08s; }
+        .eq-bar:nth-child(7) { animation-delay: 0s; }
+
+        @keyframes eqBounce {
+            0%, 100% { height: 6px; }
+            50% { height: 20px; }
+        }
+
+        /* Play Button - Lebih kecil */
+        .controls {
+            margin-top: 18px;
+        }
+
+        .play-btn {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            border: none;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            font-size: 1.3rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 
+                0 10px 30px rgba(102, 126, 234, 0.35),
+                0 0 0 4px rgba(255, 255, 255, 0.5);
+            transition: all 0.3s ease;
+        }
+
+        .play-btn:hover {
+            transform: scale(1.08);
+        }
+
+        .play-btn:active {
+            transform: scale(0.95);
+        }
+
+        .play-btn i {
+            margin-left: 3px;
+        }
+
+        .play-btn.playing i {
+            margin-left: 0;
+        }
+
+        /* Volume - Lebih compact */
+        .volume-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 15px;
+            padding: 10px 18px;
+            background: rgba(255, 255, 255, 0.6);
+            border-radius: 50px;
+            border: 2px solid rgba(255, 255, 255, 0.8);
+        }
+
+        .volume-icon {
+            color: #764ba2;
+            font-size: 0.85rem;
+        }
+
+        .volume-slider {
+            -webkit-appearance: none;
+            width: 100px;
+            height: 6px;
+            border-radius: 3px;
+            background: linear-gradient(90deg, rgba(102, 126, 234, 0.3), rgba(240, 147, 251, 0.3));
+            outline: none;
+            cursor: pointer;
+        }
+
+        .volume-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            cursor: pointer;
+            box-shadow: 0 3px 10px rgba(102, 126, 234, 0.4);
+        }
+
+        .volume-slider::-moz-range-thumb {
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            cursor: pointer;
+            border: none;
+        }
+
+        /* Status - Lebih kecil */
+        .status {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 12px;
+            font-size: 0.7rem;
+            color: #555;
+            font-weight: 500;
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #bbb;
+            transition: all 0.5s ease;
+        }
+
+        .status-dot.live {
+            background: #2ecc71;
+            box-shadow: 0 0 10px rgba(46, 204, 113, 0.5);
+        }
+    </style>
 </head>
 <body>
-  <div class="card" role="application" aria-label="Mekarindah player">
-    <div class="title-app">🎧 Mekarindah</div>
+    <div class="bg-overlay"></div>
 
-    <div class="cover-wrap" aria-hidden="false">
-      <div class="neon-ring" id="neon"></div>
-      <img id="cover" class="cover" src="https://mekarindah.netlify.app/img/default.jpg" alt="Cover art" />
-     </div>
+    <div class="player-container">
+        <div class="glass-card">
+            <div class="vinyl-assembly">
+                <div class="vinyl-disc" id="vinylDisc">
+                    <div class="vinyl-shine"></div>
+                </div>
 
-    <div class="info" aria-live="polite">
-      <div id="songTitle" class="song-title">Memuat...</div>
-      <div id="songArtist" class="song-artist">Mekarindah</div>
-      <div class="radio-name">Radio Islami</div>
+                <div class="tonearm" id="tonearm">
+                    <div class="tonearm-base"></div>
+                    <div class="tonearm-arm">
+                        <div class="tonearm-head">
+                            <div class="tonearm-needle"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="cover-container">
+                    <div class="cover-glow"></div>
+                    <img src="https://mekarindah.netlify.app/img/default.jpg" 
+                         alt="SUARA MEKARINDAH" 
+                         class="album-cover" 
+                         id="albumCover">
+                    <div class="cover-shine"></div>
+                </div>
+            </div>
+
+            <div class="station-info">
+                <h1 class="station-name">SUARA MEKARINDAH</h1>
+                
+                <div class="now-playing">
+                    <div class="now-playing-label">♫ Now Playing</div>
+                    
+                    <div class="marquee-container">
+                        <div class="marquee-text" id="songMarquee">
+                            <span class="song-title" id="songTitle">Klik Play untuk Memulai</span>
+                        </div>
+                    </div>
+                    
+                    <div class="marquee-container">
+                        <div class="marquee-text" id="artistMarquee">
+                            <span class="artist-name" id="artistName">Radio Streaming</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="equalizer" id="equalizer">
+                    <div class="eq-bar"></div>
+                    <div class="eq-bar"></div>
+                    <div class="eq-bar"></div>
+                    <div class="eq-bar"></div>
+                    <div class="eq-bar"></div>
+                    <div class="eq-bar"></div>
+                    <div class="eq-bar"></div>
+                </div>
+            </div>
+
+            <div class="controls">
+                <button class="play-btn" id="playBtn" onclick="togglePlay()">
+                    <i class="fas fa-play"></i>
+                </button>
+            </div>
+
+            <div class="volume-container">
+                <i class="fas fa-volume-down volume-icon" id="volumeIcon"></i>
+                <input type="range" class="volume-slider" id="volumeSlider" min="0" max="100" value="80">
+                <i class="fas fa-volume-up volume-icon"></i>
+            </div>
+
+            <div class="status">
+                <div class="status-dot" id="statusDot"></div>
+                <span id="statusText">Siap diputar</span>
+            </div>
+        </div>
     </div>
 
-    <div class="controls" role="toolbar" aria-label="Kontrol player">
-      <button id="refreshBtn" class="btn" title="Refresh">🔄</button>
-      <button id="playBtn" class="btn play" title="Play / Pause">▶</button>
-      <button id="stopBtn" class="btn" title="Stop">⏹</button>
-    </div>
+    <audio id="audioPlayer" preload="none">
+        <source src="https://stream.zeno.fm/d2k0ptw4kkeuv" type="audio/mpeg">
+    </audio>
 
-    <div class="listeners" id="listeners">Menunggu data…</div>
-  </div>
+    <script>
+        const audio = document.getElementById('audioPlayer');
+        const playBtn = document.getElementById('playBtn');
+        const vinylDisc = document.getElementById('vinylDisc');
+        const tonearm = document.getElementById('tonearm');
+        const albumCover = document.getElementById('albumCover');
+        const songTitle = document.getElementById('songTitle');
+        const artistName = document.getElementById('artistName');
+        const songMarquee = document.getElementById('songMarquee');
+        const artistMarquee = document.getElementById('artistMarquee');
+        const volumeSlider = document.getElementById('volumeSlider');
+        const volumeIcon = document.getElementById('volumeIcon');
+        const statusDot = document.getElementById('statusDot');
+        const statusText = document.getElementById('statusText');
+        const equalizer = document.getElementById('equalizer');
 
-  <audio id="audio" crossorigin="anonymous"></audio>
+        let isPlaying = false;
+        let metadataSource = null;
+        let currentSearch = '';
+        let colorIndex = 0;
+        
+        // URL Cover Default
+        const DEFAULT_COVER = 'https://mekarindah.netlify.app/img/default.jpg';
 
-<script>
-/* === Konfigurasi === */
-const MOUNT_ID = "gkvbmtw4kkeuv";                                 // id Zeno
-const ZENO_NOWPLAYING = `https://zenoplay.zenomedia.com/api/zenofm/nowplaying/${MOUNT_ID}/?rand=`; 
-const STREAM_URL = `https://stream.zeno.fm/${MOUNT_ID}`;
-const FALLBACK_COVER = "https://mekarindah.netlify.app/img/default.jpg";
-const ITUNES_SEARCH = "https://itunes.apple.com/search?term=";     // no API key needed
-const ITUNES_LIMIT = 1;
+        // Warna-warna cerah untuk background
+        const bgColors = [
+            'linear-gradient(135deg, #a8edea 0%, #fed6e3 100%)',
+            'linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%)',
+            'linear-gradient(135deg, #d299c2 0%, #fef9d7 100%)',
+            'linear-gradient(135deg, #89f7fe 0%, #66a6ff 100%)',
+            'linear-gradient(135deg, #a1c4fd 0%, #c2e9fb 100%)',
+            'linear-gradient(135deg, #fbc2eb 0%, #a6c1ee 100%)',
+            'linear-gradient(135deg, #fdcbf1 0%, #e6dee9 100%)',
+            'linear-gradient(135deg, #a6c0fe 0%, #f68084 100%)',
+            'linear-gradient(135deg, #fccb90 0%, #d57eeb 100%)',
+            'linear-gradient(135deg, #e0c3fc 0%, #8ec5fc 100%)',
+            'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)',
+            'linear-gradient(135deg, #96fbc4 0%, #f9f586 100%)',
+        ];
 
-/* === Elemen UI === */
-const audio = document.getElementById("audio");
-const coverImg = document.getElementById("cover");
-const songTitleEl = document.getElementById("songTitle");
-const songArtistEl = document.getElementById("songArtist");
-const listenersEl = document.getElementById("listeners");
-const playBtn = document.getElementById("playBtn");
-const stopBtn = document.getElementById("stopBtn");
-const refreshBtn = document.getElementById("refreshBtn");
+        // Ganti background secara berkala
+        setInterval(() => {
+            colorIndex = (colorIndex + 1) % bgColors.length;
+            document.body.style.background = bgColors[colorIndex];
+        }, 8000);
 
-/* === State lokal === */
-let isPlaying = false;
-let lastNowPlayingSignature = "";   // supress duplicate cover lookups
-let pendingLookup = null;           // to cancel/dedup quick successive updates
+        // Qari database dengan URL gambar yang stabil (non-Soundcloud)
+        // Jika Anda ingin gambar Qari spesifik, ganti URL di sini
+        const qariDatabase = {
+            'mishary': 'https://i.ytimg.com/vi/GLMp_EGGLfk/hq720.jpg?sqp=-oaymwExCK4FEIIDSFryq4qpAyMIARUAAIhCGAHwAQH4AdQGgALgA4oCDAgAEAEYciBWKDgwDw==&rs=AOn4CLAa_DZgLB8D4xcMTFPgxpnQghg_sw', // Contoh URL yang diganti
+            'abdul': 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT99qAcwhSDEUMmxHHzjEfna9YVgtg-04A8rDvXbaNtZf-70ZkRxFPl_i5J_he-DnfdtO7EhS0ouUaiu-hq_bE8Ni9U3xKBjsAdFgzAg4w&s=10',
+            'adi hidayat': 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQi7cw0cL0cs4aqyXA5sbBMBaCWGmW0D28pzruJKEWXlx9RYeQLuZouy9VlqLk9oWvOxlO7jHAh6QOXhjPyKPQZqz2rez4YV5XOPrgTTQ&s=10',
+            'zainuddin': 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSDo4WarU6dxMHRx3BFqisexu4euGqv9Ni9_JZA5jZBwA&s=10',
+            'latif': 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQSgeut2z_VzZzl5_B7sbcdxL2FkG3Rd3dOTaS3WCOXEA&s=10',
+            'al sudais': 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/24/Abdulrahman_Al-Sudais.jpg/440px-Abdulrahman_Al-Sudais.jpg',
+            'ghamdi': 'https://i.ibb.co/Wp0y1hG/ghamdi.jpg', // Contoh URL yang diganti
+            'shatri': 'https://i.ibb.co/fQ5N204/shatri.jpg', // Contoh URL yang diganti
+            'abdul basit': 'https://i.ibb.co/RzM805h/abdulbasit.jpg', // Contoh URL yang diganti
+            // Hapus semua link soundcloud lainnya dan tambahkan link stabil jika ada
+        };
 
-/* === Inisialisasi audio stream === */
-audio.src = STREAM_URL;
-audio.volume = 0.7;
-audio.preload = "none"; // reduce initial bandwidth if desired
+        // Marquee function
+        function setupMarquee(textElement, marqueeElement) {
+            const textWidth = textElement.offsetWidth;
+            const container = marqueeElement.parentElement;
+            const availableWidth = container.offsetWidth - 30; 
 
-/* === Event tombol === */
-playBtn.addEventListener("click", async () => {
-  try {
-    if (isPlaying) {
-      audio.pause();
-      playBtn.textContent = "▶";
-      coverImg.classList.add("paused");
-    } else {
-      await audio.play();
-      playBtn.textContent = "⏸";
-      coverImg.classList.remove("paused");
-      listenersEl.textContent = "🎵 Terhubung";
-    }
-    isPlaying = !isPlaying;
-  } catch (err) {
-    console.error("Play error:", err);
-    listenersEl.textContent = "⚠️ Tidak dapat memutar";
-  }
-});
-
-stopBtn.addEventListener("click", () => {
-  audio.pause();
-  audio.currentTime = 0;
-  isPlaying = false;
-  playBtn.textContent = "▶";
-  coverImg.classList.add("paused");
-  listenersEl.textContent = "⏹ Dihentikan";
-});
-
-refreshBtn.addEventListener("click", fetchNowPlaying);
-
-/* === Utility: delay + cancelable lookup === */
-function debounceCancelable(fn, wait = 300) {
-  let timer = null;
-  return (...args) => {
-    if (timer) clearTimeout(timer);
-    return new Promise((resolve) => {
-      timer = setTimeout(async () => {
-        try {
-          const r = await fn(...args);
-          resolve(r);
-        } catch (e) {
-          resolve(null);
+            if (textWidth > availableWidth) {
+                marqueeElement.innerHTML = `<span class="${textElement.className}">${textElement.textContent}</span><span style="padding: 0 50px;"></span><span class="${textElement.className}">${textElement.textContent}</span>`;
+                marqueeElement.classList.add('scrolling');
+            } else {
+                marqueeElement.classList.remove('scrolling');
+                marqueeElement.innerHTML = `<span class="${textElement.className}">${textElement.textContent}</span>`;
+            }
         }
-      }, wait);
-    });
-  };
-}
 
-/* === Ambil nowplaying dari Zeno (robust) === */
-async function fetchNowPlaying() {
-  listenersEl.textContent = "🔄 Memuat data...";
-  try {
-    const r = await fetch(ZENO_NOWPLAYING + Math.random(), { cache: "no-store" });
-    if (!r.ok) throw new Error("Zeno API status " + r.status);
-    const data = await r.json();
-    handleNowPlayingData(data);
-  } catch (err) {
-    console.error("Nowplaying fetch failed:", err);
-    listenersEl.textContent = "⚠️ Gagal ambil data";
-    // jangan langsung fallback cover replace lagu; tunggu interval selanjutnya
-  }
-}
+        // Fungsi kontrol putar
+        function togglePlay() {
+            if (isPlaying) {
+                audio.pause();
+            } else {
+                statusText.textContent = 'Menghubungkan...';
+                audio.play().catch(e => {
+                    statusText.textContent = 'Gagal memutar';
+                });
+            }
+        }
 
-/* === Parsing dan sinkronisasi cover === */
-function normalizeText(s) { return (s || "").trim(); }
+        // Fungsi update UI
+        function updateUI(playing) {
+            isPlaying = playing;
+            if (playing) {
+                playBtn.innerHTML = '<i class="fas fa-pause"></i>';
+                playBtn.classList.add('playing');
+                vinylDisc.classList.add('playing');
+                tonearm.classList.add('playing');
+                equalizer.classList.add('active');
+                statusDot.classList.add('live');
+                statusText.textContent = 'Live Streaming';
+            } else {
+                playBtn.innerHTML = '<i class="fas fa-play"></i>';
+                playBtn.classList.remove('playing');
+                vinylDisc.classList.remove('playing');
+                tonearm.classList.remove('playing');
+                equalizer.classList.remove('active');
+                statusDot.classList.remove('live');
+                statusText.textContent = 'Dijeda';
+            }
+        }
 
-/* Determine artist/title from Zeno's response:
-   Many Zeno stations put "Artist - Title" inside `title` and leave artist empty.
-   We attempt these fallbacks in order:
-   1) If data.now_playing.song.* exists, use those fields.
-   2) If data.title contains " - " then split.
-   3) else use data.artist and data.title as given.
-*/
-function extractArtistTitle(data) {
-  let title = "";
-  let artist = "";
+        // Event listeners Audio
+        audio.addEventListener('play', () => updateUI(true));
+        audio.addEventListener('pause', () => updateUI(false));
+        audio.addEventListener('waiting', () => statusText.textContent = 'Buffering...');
+        audio.addEventListener('playing', () => {
+            statusText.textContent = 'Live Streaming';
+            statusDot.classList.add('live');
+        });
+        audio.addEventListener('error', () => {
+            statusText.textContent = 'Koneksi error';
+            updateUI(false);
+        });
 
-  // case: modern zeno payload may have nested now_playing
-  if (data?.now_playing?.song) {
-    const s = data.now_playing.song;
-    title = normalizeText(s.title || s.track || s.song || data.title);
-    artist = normalizeText(s.artist || s.performer || data.artist);
-  }
+        // Volume control
+        audio.volume = 0.8;
+        volumeSlider.addEventListener('input', (e) => {
+            const value = e.target.value / 100;
+            audio.volume = value;
+            volumeIcon.className = value === 0 ? 'fas fa-volume-mute volume-icon' : 
+                                   value < 0.5 ? 'fas fa-volume-down volume-icon' : 
+                                   'fas fa-volume-up volume-icon';
+        });
 
-  // fallback to top-level fields
-  if (!title) title = normalizeText(data.title || "");
-  if (!artist) artist = normalizeText(data.artist || "");
+        // Fungsi pencarian cover art di database lokal
+        function findQariCover(text) {
+            const lowerText = text.toLowerCase();
+            for (const [key, url] of Object.entries(qariDatabase)) {
+                if (lowerText.includes(key)) return url;
+            }
+            return null;
+        }
 
-  // if title contains "Artist - Song" pattern, split
-  if (title && !artist && title.includes(" - ")) {
-    const parts = title.split(" - ");
-    // Some streams use "Artist - Title"
-    if (parts.length >= 2) {
-      artist = normalizeText(parts[0]);
-      title = normalizeText(parts.slice(1).join(" - "));
-    }
-  }
+        // Fungsi pencarian Cover Art menggunakan iTunes Search API
+        async function searchiTunes(artist, title) {
+            const query = encodeURIComponent(`${title} ${artist}`);
+            // entity=song dan country=id (Indonesia)
+            const iTunesUrl = `https://itunes.apple.com/search?term=${query}&entity=song&limit=1&country=id`;
+            
+            try {
+                const response = await fetch(iTunesUrl);
+                if (!response.ok) return null;
+                
+                const data = await response.json();
+                
+                if (data.results && data.results.length > 0) {
+                    // iTunes menyediakan gambar dengan ukuran 100x100.
+                    // Ganti '100x100bb' menjadi '512x512bb' untuk mendapatkan resolusi yang lebih besar.
+                    const imageUrl = data.results[0].artworkUrl100;
+                    if (imageUrl) {
+                        return imageUrl.replace('100x100bb', '512x512bb');
+                    }
+                }
+            } catch (error) {
+                console.log("iTunes search error:", error);
+            }
+            return null;
+        }
 
-  // final safe defaults
-  if (!title) title = "Mekarindah";
-  if (!artist) artist = "Mekarindah";
+        async function updateCover(artist, title) {
+            const searchKey = `${artist}-${title}`;
+            if (searchKey === currentSearch) return;
+            currentSearch = searchKey;
+            
+            // 1. Prioritas 1: Cari di database Qari lokal
+            let coverUrl = findQariCover(`${artist} ${title}`);
+            
+            // 2. Prioritas 2: Jika tidak ditemukan, cari melalui iTunes
+            if (!coverUrl) {
+                coverUrl = await searchiTunes(artist, title);
+            }
+            
+            // 3. Terapkan gambar baru atau fallback
+            const finalCoverUrl = coverUrl || DEFAULT_COVER;
 
-  return { artist, title };
-}
+            // Gunakan image loader untuk menangani error loading
+            const tempImg = new Image();
+            tempImg.onload = () => {
+                console.log("Cover art loaded successfully:", finalCoverUrl);
+                albumCover.src = finalCoverUrl;
+            };
+            tempImg.onerror = () => {
+                console.log("Cover image failed to load, using default.");
+                albumCover.src = DEFAULT_COVER;
+            };
+            tempImg.src = finalCoverUrl;
+        }
 
-/* Debounced iTunes lookup to avoid spamming when title updates rapidly */
-const lookupCoverDebounced = debounceCancelable(async (artist, title) => {
-  try {
-    const q = encodeURIComponent(`${artist} ${title}`);
-    const url = `${ITUNES_SEARCH}${q}&limit=${ITUNES_LIMIT}&entity=song`;
-    const r = await fetch(url);
-    if (!r.ok) return null;
-    const j = await r.json();
-    if (j.results && j.results.length > 0) {
-      // artworkUrl100 typical form; replace size with 600
-      const art100 = j.results[0].artworkUrl100 || "";
-      return art100.replace(/100x100bb.jpg|100x100bbpng|100x100bb\..*$/i, "600x600bb.jpg");
-    }
-    return null;
-  } catch (e) {
-    console.warn("iTunes lookup error", e);
-    return null;
-  }
-}, 350);
+        function connectMetadata() {
+            if (metadataSource) metadataSource.close();
+            
+            try {
+                // Endpoint Zeno.FM untuk metadata
+                metadataSource = new EventSource('https://api.zeno.fm/mounts/metadata/subscribe/gkvbmtw4kkeuv');
+                
+                metadataSource.onmessage = function(event) {
+                    console.log("Metadata received:", event.data); 
+                    try {
+                        const data = JSON.parse(event.data);
+                        
+                        if (data.streamTitle) {
+                            let artist = 'SUARA MEKARINDAH';
+                            let title = data.streamTitle;
+                            
+                            if (data.streamTitle.includes(' - ')) {
+                                const parts = data.streamTitle.split(' - ');
+                                artist = parts[0].trim();
+                                title = parts.slice(1).join(' - ').trim();
+                            }
+                            
+                            // 1. Update Title dan Artist
+                            songMarquee.classList.remove('scrolling');
+                            artistMarquee.classList.remove('scrolling');
+                            songMarquee.innerHTML = `<span class="song-title">${title}</span>`;
+                            artistMarquee.innerHTML = `<span class="artist-name">${artist}</span>`;
+                            
+                            // 2. Setup marquee setelah update DOM
+                            setTimeout(() => {
+                                setupMarquee(document.querySelector('#songMarquee .song-title'), songMarquee);
+                                setupMarquee(document.querySelector('#artistMarquee .artist-name'), artistMarquee);
+                            }, 50);
+                            
+                            // 3. Update cover art
+                            updateCover(artist, title);
+                        }
+                    } catch (e) {
+                        console.log("Error parsing metadata:", e);
+                    }
+                };
 
-/* Try to load image URL to ensure valid (CORS-safe). Returns true if loads within timeout. */
-function testImage(url, timeout = 6000) {
-  return new Promise((resolve) => {
-    if (!url) return resolve(false);
-    const img = new Image();
-    let done = false;
-    img.crossOrigin = "anonymous";
-    img.onload = () => { if (!done) { done = true; resolve(true); } };
-    img.onerror = () => { if (!done) { done = true; resolve(false); } };
-    img.src = url;
-    // timeout fallbacks
-    setTimeout(() => { if (!done) { done = true; resolve(false); } }, timeout);
-  });
-}
+                metadataSource.onerror = () => {
+                    console.log("Metadata connection error, retrying in 5 seconds...");
+                    // Fallback ke gambar default jika koneksi metadata gagal
+                    albumCover.src = DEFAULT_COVER; 
+                    setTimeout(connectMetadata, 5000);
+                };
+            } catch (e) {
+                console.log("Error connecting to metadata:", e);
+                setTimeout(connectMetadata, 5000);
+            }
+        }
 
-/* Main handler: decides which cover to set */
-async function handleNowPlayingData(data) {
-  try {
-    const { artist, title } = extractArtistTitle(data);
-    const signature = `${artist}::${title}`;
-    songTitleEl.textContent = title;
-    songArtistEl.textContent = artist;
+        connectMetadata();
 
-    // Update listeners UI if available
-    if (data.listeners || data.current_listeners) {
-      const cnt = data.listeners || data.current_listeners;
-      listenersEl.textContent = `🎧 ${cnt} pendengar • Live dari Cikarang`;
-    } else {
-      listenersEl.textContent = "🎵 Live dari Cikarang";
-    }
+        document.addEventListener('keydown', (e) => {
+            if (e.code === 'Space') {
+                e.preventDefault();
+                togglePlay();
+            }
+        });
 
-    // If same (artist+title) as last time, do nothing (avoid re-lookup)
-    if (signature === lastNowPlayingSignature) return;
-    lastNowPlayingSignature = signature;
-
-    // Cancel previous pending lookup (we use debounceCancelable so earlier pending will be cleared)
-    pendingLookup = null;
-
-    // 1) If Zeno provides a thumb / art URL, try it first
-    const zenoThumbCandidates = [];
-    if (data.thumb) zenoThumbCandidates.push(data.thumb);
-    if (data.song_art_image_url) zenoThumbCandidates.push(data.song_art_image_url);
-    if (data.image) zenoThumbCandidates.push(data.image);
-    // nested
-    if (data.now_playing && data.now_playing.song) {
-      const s = data.now_playing.song;
-      if (s.art) zenoThumbCandidates.push(s.art);
-      if (s.image) zenoThumbCandidates.push(s.image);
-    }
-
-    // test zeno thumbs in order
-    for (const url of zenoThumbCandidates) {
-      if (url && typeof url === "string") {
-        const ok = await testImage(url);
-        if (ok) { coverImg.src = url; return; }
-      }
-    }
-
-    // 2) Try iTunes lookup (debounced)
-    listenersEl.textContent = "🔎 Mencari cover di iTunes...";
-    const itunesArt = await lookupCoverDebounced(artist, title);
-    if (itunesArt) {
-      const ok = await testImage(itunesArt);
-      if (ok) { coverImg.src = itunesArt; listenersEl.textContent = "🎵 Live dari Cikarang"; return; }
-    }
-
-    // 3) As extra fallback, try small heuristics: try searching by title only
-    if (artist && title && title.length > 3) {
-      listenersEl.textContent = "🔎 Coba pencarian alternatif...";
-      const altItunes = await lookupCoverDebounced("", title);
-      if (altItunes) {
-        if (await testImage(altItunes)) { coverImg.src = altItunes; listenersEl.textContent = "🎵 Live dari Cikarang"; return; }
-      }
-    }
-
-    // 4) Finally use fallback
-    coverImg.src = FALLBACK_COVER;
-    listenersEl.textContent = "🎵 Live dari Cikarang";
-  } catch (err) {
-    console.error("handleNowPlayingData error", err);
-    coverImg.src = FALLBACK_COVER;
-    listenersEl.textContent = "⚠️ Error menampilkan data";
-  }
-}
-
-/* Periodic fetching + initial */
-fetchNowPlaying();
-setInterval(fetchNowPlaying, 20000); // update every 30s
-
-/* Also cycle page background colors every 15s (visual) */
-const BG_COLORS = [
-  'linear-gradient(135deg,#667eea,#764ba2)',
-  'linear-gradient(135deg,#f093fb,#f5576c)',
-  'linear-gradient(135deg,#4facfe,#00f2fe)',
-  'linear-gradient(135deg,#fa709a,#fee140)',
-  'linear-gradient(135deg,#30cfd0,#330867)'
-];
-let bgIdx = 0;
-setInterval(() => {
-  bgIdx = (bgIdx + 1) % BG_COLORS.length;
-  document.body.style.background = BG_COLORS[bgIdx];
-}, 15000);
-
-/* Accessibility: keyboard shortcuts (space = play/pause, r = refresh, s = stop) */
-window.addEventListener("keydown", (e) => {
-  if (e.key === " " || e.key === "Spacebar") {
-    e.preventDefault(); playBtn.click();
-  } else if (e.key.toLowerCase() === "r") refreshBtn.click();
-  else if (e.key.toLowerCase() === "s") stopBtn.click();
-});
-</script>
+        albumCover.onerror = function() { 
+            console.log("Direct image load error detected on albumCover.");
+            this.src = DEFAULT_COVER; 
+        };
+    </script>
 </body>
-</html>
-    
-  </body>
-  
-</html>
-    
-  </body>
-  
 </html>
